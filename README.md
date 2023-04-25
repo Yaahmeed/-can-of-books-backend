@@ -1,4 +1,4 @@
-# Documentationnn
+# Documentation
 
 You must have a complete README.md for your repository.
 
