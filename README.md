@@ -41,3 +41,32 @@ Start time: 3:30pm _____
 Finish time: __8:30___
 
 Actual time needed to complete: __5hours___
+
+Time Estimates
+For each of the lab features, make an estimate of the time it will take you to complete the feature, and record your start and finish times for that feature:
+
+Name of feature: backend magoose_db
+________________________________
+
+Estimate of time needed to complete: __5hours___
+
+Start time: 4:30pm _____
+
+Finish time: ____
+
+Actual time needed to complete: __hours___
+
+Time Estimates
+For each of the lab features, make an estimate of the time it will take you to complete the feature, and record your start and finish times for that feature:
+
+Name of feature: backend magoose_db
+________________________________
+
+Estimate of time needed to complete: __4hours___
+
+Start time: 4:30pm _____
+
+Finish time: ____
+
+Actual time needed to complete: __hours___
+
