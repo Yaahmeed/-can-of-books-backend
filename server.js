@@ -14,6 +14,7 @@ const mongoose = require('mongoose');
 const Book = require('./models/books');
 
 const app = express();
+app.use(express.json());
 
 // middleware
 app.use(cors());
@@ -63,6 +64,48 @@ app.get('/books', async (request, response, next) => {
 app.get('*', (request, response) => {
   response.status(404).send('Not available');
 });
+
+app.post('/books', postBook);
+async function postBook(request, response, next){
+  // console.log(request.body);
+  try {
+    // TODO: take in the data that comes in on the request
+    let bookData = request.body;
+    // TODO: have my Model create the new instance of a cat to my DB
+    // !! DON'T FORGET THAT MIDDLEWARE ^ ^ ^ ^ (LINE 20)
+    let createdBook = await Book.create(bookData);
+    // TODO: send that on the response
+    response.status(200).send(createdBook);
+  } catch (error) {
+    next(error);
+  }
+}
+
+app.delete('/books/:bookID', deleteBook);
+
+async function deleteBook(req, res, next) {
+  try {
+    console.log(req.params);
+    let id = req.params.bookID;
+    await Book.findByIdAndDelete(id);
+    res.status(200).send('Book Deleted!');
+  } catch (error) {
+    next(error);
+  }
+}
+
+app.put('/books/:bookID', updateBook);
+
+async function updateBook(req, res, next) {
+  try {
+    let id = req.params.bookID;
+    let bookData = req.body;
+    let updatedBook = await Book.findByIdAndUpdate(id, bookData, { new: true, overwrite: true });
+    res.status(200).send(updatedBook);
+  } catch (error) {
+    next(error);
+  }
+}
 
 // ERROR
 app.use((error, request, response, next) => {
