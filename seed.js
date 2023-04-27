@@ -15,7 +15,7 @@ async function seed() {
 
   await Book.create({
   title:'Nineteen Eighty-Four',
-  discription: 'Dystopian social science fiction',
+  description: 'Dystopian social science fiction',
   status: true
 });
 
@@ -23,7 +23,7 @@ console.log('Nineteeen Eight-Four created');
 
   await Book.create({
   title:'Harry Potter',
-  discription: 'Boy wizard battles dark lord to save wizarding world.',
+  description: 'Boy wizard battles dark lord to save wizarding world.',
   status: true
 });
 
@@ -31,7 +31,7 @@ console.log('Nineteeen Eight-Four created');
 
   await Book.create({
   title:'Lord of the Rings',
-  discription: 'Fellowship quest to destroy the One Ring and defeat Sauron',
+  description: 'Fellowship quest to destroy the One Ring and defeat Sauron',
   status: true
 });
 
