@@ -78,7 +78,7 @@ app.get('*', (request, response) => {
 });
 
 app.post('/books', postBook);
-async function postBook(req, res, next){
+async function postBook(request, response, next){
   // console.log(request.body);
   try {
     // TODO: take in the data that comes in on the request
