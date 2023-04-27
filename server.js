@@ -1,4 +1,5 @@
 'use strict';
+// console.log ('your server is here');
 
 // REQUIRE
 require('dotenv').config();
@@ -11,7 +12,7 @@ const mongoose = require('mongoose');
 
 // BRING IN MODEL TO SERVER FOR ENDPOINTS 
 
-const Book = require('./models/books');
+const Book = require('./models/books.js');
 
 const app = express();
 app.use(express.json());
@@ -21,11 +22,11 @@ app.use(cors());
 
 //  define PORT validate env is working
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 
 // LISTEN
-app.listen(PORT, () => console.log(`listening on Port ${PORT}`));
+// app.listen(PORT, () => console.log(`listening on Port ${PORT}`));
 
 // CONNECT MONGOOSE TO MONGODB AND BRING IT INTO MY SERVER
 mongoose.connect(process.env.DB_URL);
@@ -46,27 +47,38 @@ app.get('/test', (request, response) => {
 
 })
 
-//ENDPOINT THAT WILL RETRIEVE ALL CATS FROM THE DB 
+//ENDPOINT THAT WILL RETRIEVE ALL BOOKS FROM THE DB 
 
-app.get('/books', async (request, response, next) => {
+app.get('/books', getBooks);
+
+async function getBooks(request, response, next) {
   try {
-    // TODO: GET ALL CATS FROM DB AND SEND IT ON THE RESPONSE
-
-    let allBooks = await Book.find({}); // 
-    // Model.find({}) -> return all documents from the DB
-
+    let allBooks = await Book.find(); // 
     response.status(200).send(allBooks);
   } catch (error) {
     next(error);
   }
-});
+};
+
+// app.get('/books', async (request, response, next) => {
+//   try {
+//     // TODO: GET ALL CATS FROM DB AND SEND IT ON THE RESPONSE
+
+//     let allBooks = await Book.find({}); // 
+//     // Model.find({}) -> return all documents from the DB
+
+//     response.status(200).send(allBooks);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 app.get('*', (request, response) => {
   response.status(404).send('Not available');
 });
 
 app.post('/books', postBook);
-async function postBook(request, response, next){
+async function postBook(req, res, next){
   // console.log(request.body);
   try {
     // TODO: take in the data that comes in on the request
@@ -75,7 +87,7 @@ async function postBook(request, response, next){
     // !! DON'T FORGET THAT MIDDLEWARE ^ ^ ^ ^ (LINE 20)
     let createdBook = await Book.create(bookData);
     // TODO: send that on the response
-    response.status(200).send(createdBook);
+    response.status(201).send(createdBook);
   } catch (error) {
     next(error);
   }
@@ -83,12 +95,12 @@ async function postBook(request, response, next){
 
 app.delete('/books/:bookID', deleteBook);
 
-async function deleteBook(req, res, next) {
+async function deleteBook(request, response, next) {
   try {
-    console.log(req.params);
-    let id = req.params.bookID;
+    console.log(request.params);
+    let id = request.params.bookID;
     await Book.findByIdAndDelete(id);
-    res.status(200).send('Book Deleted!');
+    response.status(204).send('Book Deleted!');
   } catch (error) {
     next(error);
   }
@@ -96,12 +108,12 @@ async function deleteBook(req, res, next) {
 
 app.put('/books/:bookID', updateBook);
 
-async function updateBook(req, res, next) {
+async function updateBook(request, response, next) {
   try {
-    let id = req.params.bookID;
-    let bookData = req.body;
+    let id = request.params.bookID;
+    let bookData = request.body;
     let updatedBook = await Book.findByIdAndUpdate(id, bookData, { new: true, overwrite: true });
-    res.status(200).send(updatedBook);
+    response.status(201).send(updatedBook);
   } catch (error) {
     next(error);
   }
@@ -112,3 +124,6 @@ app.use((error, request, response, next) => {
   console.log(error.message);
   response.status(500).send(error.message);
 });
+
+// LISTEN
+app.listen(PORT, () => console.log(`listening on Port ${PORT}`));
